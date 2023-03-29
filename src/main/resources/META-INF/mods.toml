@@ -1,0 +1,30 @@
+modLoader="javafml"
+loaderVersion="[43,)"
+license="GNU LESSER GENERAL PUBLIC LICENSE"
+issueTrackerURL="https://github.com/Darkhax-Minecraft/JourneyMapStages/issues"
+[[mods]]
+modId="jmapstages"
+version="${file.jarVersion}"
+displayName="JourneyMapStages"
+#updateJSONURL=""
+displayURL="https://minecraft.curseforge.com/projects/journeymapstages"
+logoFile=""
+credits="Darkosto for the idea!"
+authors="Darkhax"
+#displayTest="MATCH_VERSION"
+description='''
+Allows for Journey Map to be gated behind GameStage progression.
+'''
+
+[[dependencies.jmapstages]]
+    modId="forge"
+    mandatory=true
+    versionRange="[43,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.jmapstages]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.19.2,1.20)"
+    ordering="NONE"
+    side="BOTH"
