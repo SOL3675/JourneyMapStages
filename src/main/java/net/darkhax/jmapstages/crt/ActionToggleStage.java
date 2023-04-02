@@ -1,7 +1,9 @@
 package net.darkhax.jmapstages.crt;
 
 import com.blamejared.crafttweaker.api.action.base.IRuntimeAction;
-import net.darkhax.jmapstages.JMapStages;
+import net.darkhax.jmapstages.JMapEventListener;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 
 public class ActionToggleStage implements IRuntimeAction {
 
@@ -15,28 +17,31 @@ public class ActionToggleStage implements IRuntimeAction {
 
     @Override
     public void apply () {
-
-        switch (this.type) {
-            case DEATHPOINT:
-                JMapStages.stageDeathoint = this.stage;
-                break;
-            case FULLSCREEN:
-                JMapStages.stageFullscreen = this.stage;
-                break;
-            case MINIMAP:
-                JMapStages.stageMinimap = this.stage;
-                break;
-            case WAYPOINT:
-                JMapStages.stageWaypoint = this.stage;
-                break;
-            default:
-                break;
-        }
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> applyToJMapEvent());
     }
 
     @Override
     public String describe () {
         return String.format("Restricting Journey Map %s stage to %s.", this.type.name().toLowerCase(), this.stage);
+    }
+
+    public void applyToJMapEvent() {
+        switch (this.type) {
+            case DEATHPOINT:
+                JMapEventListener.stageDeathpoint = this.stage;
+                break;
+            case FULLSCREEN:
+                JMapEventListener.stageFullscreen = this.stage;
+                break;
+            case MINIMAP:
+                JMapEventListener.stageMinimap = this.stage;
+                break;
+            case WAYPOINT:
+                JMapEventListener.stageWaypoint = this.stage;
+                break;
+            default:
+                break;
+        }
     }
 
     enum Type {
