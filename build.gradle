@@ -4,7 +4,7 @@ plugins {
     id 'net.minecraftforge.gradle' version '5.1.+'
 }
 
-version = "${mod_version}" + getBuildNumber()
+version = "${mod_version}"
 group = "${mod_group}"
 archivesBaseName = "${mod_name}-${version_minecraft}"
 
@@ -112,11 +112,6 @@ jar {
 
 jar.finalizedBy('reobfJar')
 
-String getBuildNumber() {
-
-    return System.getenv('BUILD_NUMBER') ? System.getenv('BUILD_NUMBER') : System.getenv('TRAVIS_BUILD_NUMBER') ? System.getenv('TRAVIS_BUILD_NUMBER') : '0';
-}
-
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -133,71 +128,3 @@ publishing {
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
-
-/*
-curseforge {
-
-    apiKey = findProperty('curse_auth') ?: 0 
-    def versions = "${curse_versions}".split(', ')
-
-    project {
-
-        id = "${curse_project}"
-        releaseType = 'alpha'
-        changelog = getGitChangelog() + "\n\nHuge thanks to my supporters on [Patreon](https://www.patreon.com/Darkhax?MCChangelog?${mod_class})\n\n" + getPledgeLog()
-        changelogType = 'markdown'
-
-        versions.each {
-
-            addGameVersion "${it}"
-        }
-
-        if (project.hasProperty('curse_requirements') || project.hasProperty('curse_optionals')) {
-
-            mainArtifact(jar) {
-
-                relations {
-
-                    if (project.hasProperty('curse_requirements')) {
-                        def requirements = "${curse_requirements}".split(', ')
-                        requirements.each {
-
-                            requiredLibrary "${it}"
-                        }
-                    }
-
-                    if (project.hasProperty('curse_optionals')) {
-                        def optionals = "${curse_optionals}".split(', ')
-                        optionals.each {
-
-                            optionalLibrary "${it}"
-                        }
-                    }
-                }
-            }
-        }
-
-        addArtifact(sourcesJar)
-        addArtifact(javadocJar)
-        addArtifact(deobfJar)
-    }
-}
-
-
-task signJar(type: SignJar, dependsOn: reobfJar) {
-
-    onlyIf {
-    
-        project.hasProperty('keyStore')
-    }
-    
-    keyStore = project.findProperty('keyStore')
-    alias = project.findProperty('keyStoreAlias')
-    storePass = project.findProperty('keyStorePass')
-    keyPass = project.findProperty('keyStoreKeyPass')
-    inputFile = jar.archivePath
-    outputFile = jar.archivePath
-}
-
-build.dependsOn signJar
-*/
